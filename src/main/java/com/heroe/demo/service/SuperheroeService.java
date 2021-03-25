@@ -32,22 +32,23 @@ public class SuperheroeService {
     }
     
     /**
-     * Obtención de todos los superhéroes.
-     * El resultado del método devuelve un JSON
-     * El resultado de la consulta se almacena en caché.
+     * Obtaining all superheroes
+     * The result of the method returns a JSON
+     * The query result is cached.
      * 
      * @return listado de superhéroes
      */
     @Transactional(readOnly = true)
     @Cacheable(value = "superheroesTodosCache")
-    public List<Superheroe> obtenerTodosSuperheroes() {
+    public List<Superheroe> getAll() {
         log.info("Obteniendo todos los superhéroes");
         return superheroeRepository.findAll();
     }
     
     /**
-     * Busqueda de superhéroe por ID.Lanza una excepción en caso de no encontrarse.
-     * El resultado de la consulta se almacena en caché.
+     * Superhero Search by ID Throw an exception if not found.
+     * The query result is cached.
+     * Throw an exception if the superhero is not found
      * 
      * @param id
      * @return superhéroe
@@ -55,7 +56,7 @@ public class SuperheroeService {
      */
     @Transactional(readOnly = true)
     @Cacheable(value = "superheroePorIdCache")
-    public Superheroe obtenerSuperheroePorId(Long id) throws ResourceNotFoundException {
+    public Superheroe getById(Long id) throws ResourceNotFoundException {
         log.info("Obteniendo superhéroe por ID (" + id + ")");
         Superheroe heroe = superheroeRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("SuperHeroe not found for this id :: " + id));
@@ -63,17 +64,18 @@ public class SuperheroeService {
     }
     
     /**
-     * Obtiene un listado de superhéroes dada una cadena que esté incluida en el nombre.Devuelve una lista vacía si no encuentra ninguno.
-     * La consulta es insensible a mayúsculas.
-     * El resultado de la consulta se almacena en caché.
+     * Get a list of superheroes given a string that is included in the name.    
+     * The query is case insensitive.
+     * The query result is cached.
+     * Throw an exception if the superhero is not found
      * 
      * @param cadena
-     * @return listado de superhéroes
+     * @return superhero list
      * @throws com.heroe.demo.cache.ResourceNotFoundException
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     @Cacheable(value = "superheroesPorNombre")
-    public List<Superheroe> obtenerSuperheroesPorCadenaEnNombre(String cadena) throws ResourceNotFoundException {
+    public List<Superheroe> getByName(String cadena) throws ResourceNotFoundException {
         log.info("Obteniendo superhéroes por la subcadena en el nombre ('" + cadena + "')");    
         List<Superheroe> superheroes = superheroeRepository.findByCadenaInNombre(cadena);  
         if(superheroes.isEmpty()){
@@ -83,16 +85,17 @@ public class SuperheroeService {
     }
     
     /**
-     * Modifica un superhéroe dado su ID.Actualiza el nombre y la fuerza superhéroe con los datos enviados
-     * Lanza una excepción en caso de no encontrar el superhéroe
+     * Modify a superhero given his ID.
+     * Update superhero name and strength with submitted data
+     * Throw an exception if the superhero is not found
      * 
      * @param id
      * @param superheroeModificado
-     * @return el superhéroe actualizado
+     * @return update superhero
      * @throws com.heroe.demo.cache.ResourceNotFoundException
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public Superheroe actualizarSuperheroe(Long id, Superheroe superheroeModificado) throws ResourceNotFoundException {
+    public Superheroe updateSuperhero(Long id, Superheroe superheroeModificado) throws ResourceNotFoundException {
         Superheroe heroe = superheroeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("SuperHeroe not found for this id :: " + id));
         
@@ -104,16 +107,16 @@ public class SuperheroeService {
     }
     
     /**
-     * Elimina un superhéroe dado su ID
-     * Lanza una excepción en caso de no encontrar el superhéroe
-     * Devuelve un mensaje de confirmación del borrado en caso exitoso
+     * Eliminate a superhero given his ID
+     * Throw an exception if the superhero is not found
+     * Returns a message confirming the deletion in case of success
      * 
      * @param id
      * @return 'Borrado: true'
      * @throws com.heroe.demo.cache.ResourceNotFoundException
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public Map<String, Boolean> eliminarSuperheroe(Long id) throws ResourceNotFoundException {
+    public Map<String, Boolean> deleteSuperheroe(Long id) throws ResourceNotFoundException {
         Superheroe heroe = superheroeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("SuperHeroe not found for this id :: " + id));
 

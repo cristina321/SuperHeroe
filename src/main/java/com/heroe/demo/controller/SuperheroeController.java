@@ -35,7 +35,7 @@ public class SuperheroeController {
      */
     @GetMapping("/superheroes")
     public List<Superheroe> getAllSuperheroes() {
-        return superheroeService.obtenerTodosSuperheroes();
+        return superheroeService.getAll();
     }
     
     /**
@@ -47,7 +47,7 @@ public class SuperheroeController {
      */
     @GetMapping("/superheroes/id/{id}")
     public Superheroe getSuperheroeById(@PathVariable(value = "id") Long superHeroeId) throws  ResourceNotFoundException {
-        return superheroeService.obtenerSuperheroePorId(superHeroeId);
+        return superheroeService.getById(superHeroeId);
     }
     
     /**
@@ -59,7 +59,7 @@ public class SuperheroeController {
      */
     @GetMapping("/superheroes/name/{cadena}")
     public List<Superheroe> getSuperheroeByCadenaInName(@PathVariable(value = "cadena") String cadena) throws ResourceNotFoundException {
-        return superheroeService.obtenerSuperheroesPorCadenaEnNombre(cadena);
+        return superheroeService.getByName(cadena);
     }
     
     /**
@@ -73,7 +73,7 @@ public class SuperheroeController {
     @PutMapping("/superheroes/id/{id}")
     public Superheroe updateSuperheroe(@PathVariable(value = "id") Long superHeroeId
         , @Validated @RequestBody Superheroe superheroeModificado)throws ResourceNotFoundException {
-        return superheroeService.actualizarSuperheroe(superHeroeId, superheroeModificado);
+        return superheroeService.updateSuperhero(superHeroeId, superheroeModificado);
     }
     
     /**
@@ -85,6 +85,6 @@ public class SuperheroeController {
      */
     @DeleteMapping("/superheroes/id/{id}")
     public Map<String, Boolean> deleteSuperheroe(@PathVariable(value = "id") Long superHeroeId) throws ResourceNotFoundException {
-        return superheroeService.eliminarSuperheroe(superHeroeId);
+        return superheroeService.deleteSuperheroe(superHeroeId);
     }
 }

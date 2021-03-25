@@ -44,7 +44,7 @@ public class IntegracionTest {
      }
 
      @Test
-     public void testGetAllSuperheroes() {
+     public void testGetAllSuperhero() {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
         ResponseEntity<String> response = restTemplate.exchange(getRootUrl() + "/api/superheroes",
@@ -53,7 +53,7 @@ public class IntegracionTest {
     }
      
     @Test
-    public void testGetSuperheroesById() {
+    public void testGetSuperheroById() {
         int id = 1;
         Superheroe superheroe = restTemplate.getForObject(getRootUrl() + "/api/superheroes/id/"+id,Superheroe.class);
         System.out.println(superheroe.getNombre());
@@ -61,7 +61,7 @@ public class IntegracionTest {
     }
     
     @Test
-    public void testGetSuperheroeByCadenaInName() {
+    public void testGetSuperheroByName() {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
         ResponseEntity<String> response = restTemplate.exchange(getRootUrl() + "/api/superheroes/name/"+"man",
@@ -70,7 +70,7 @@ public class IntegracionTest {
     }
     
     @Test
-    public void testUpdateSuperheroes() {
+    public void testUpdateSuperhero() {
         int id = 1;
         Superheroe heroe = restTemplate.getForObject(getRootUrl() + "/api/superheroes/id/" + id, Superheroe.class);       
         heroe.setNombre("Super Cris");
@@ -81,7 +81,7 @@ public class IntegracionTest {
     }
     
     @Test
-    public void testDeleteSuperheroes() {
+    public void testDeleteSuperhero() {
          int id = 2;
          Superheroe heroe = restTemplate.getForObject(getRootUrl() + "/api/superheroes/id/" + id, Superheroe.class);
          assertNotNull(heroe);
